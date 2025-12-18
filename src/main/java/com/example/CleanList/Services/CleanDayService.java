@@ -41,7 +41,12 @@ public class CleanDayService {
             return new Response("fim de semana", dayOfWeek.name(), null,null);
         }
 
-        Group group = groupRepository.findByOrder(date.getDayOfMonth());
+        long numeroDoDia = date.getDayOfMonth(); // 1 a 31
+        long totalGrupos = groupRepository.count(); // 11 grupos
+        long ordemDoGrupo = ((numeroDoDia - 1) % totalGrupos) + 1; // de volta ao intervalo 1..11
+        System.out.println("Dia do mês: " + numeroDoDia + ", Ordem do grupo ..........: " + ordemDoGrupo);
+
+        Group group = groupRepository.findByOrder(ordemDoGrupo);
         if (group == null){
             return new Response("sem_grupo", "Nenhum grupo definido para hoje", null, null);
         }
