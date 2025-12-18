@@ -19,7 +19,7 @@ public class CleanListApplication {
 	@Bean
 	public WebClient defualtwebClient(WebClient.Builder webClientBuilder) {
 		return webClientBuilder
-				.baseUrl("https://date.nager.at/api/v3/")
+				.baseUrl("https://calendarific.com/api/v2")
 				.build();
 	}
 }
