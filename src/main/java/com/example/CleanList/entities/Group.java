@@ -1,4 +1,4 @@
-package com.example.CleanList.Group;
+package com.example.CleanList.entities;
 
 import jakarta.persistence.*;
 import lombok.*;

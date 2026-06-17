@@ -1,18 +1,16 @@
 package com.example.CleanList.Services;
 
-import com.example.CleanList.ApiResponse.Response;
-import com.example.CleanList.Group.Group;
-import com.example.CleanList.Group.GroupRepository;
+import com.example.CleanList.dto.Response;
+import com.example.CleanList.entities.Group;
+import com.example.CleanList.repositories.GroupRepository;
 import com.example.CleanList.Holiday.CalendarificHoliday;
-import com.example.CleanList.Holiday.HolidayDTO;
-import com.example.CleanList.Student.Student;
-import com.example.CleanList.Student.StudentRepository;
+import com.example.CleanList.entities.Student;
+import com.example.CleanList.repositories.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,35 +26,49 @@ public class CleanDayService {
         CalendarificHoliday holiday = dateService.getHolidayIfExist2(date);
 
         if (holiday != null) {
-            return new Response(
-                    "feriado",
-                    holiday.getName(),
-                    null,
-                    null
-            );
+            return Response.builder()
+                    .status("feriado".toUpperCase())
+                    .groupName(null)
+                    .message(holiday.getName())
+                    .students(null)
+                    .build();
         }
 
         DayOfWeek dayOfWeek = date.getDayOfWeek() ;
         if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY){
-            return new Response("fim de semana", dayOfWeek.name(), null,null);
+            return Response.builder()
+                    .status("fim de semana".toUpperCase())
+                    .message(dayOfWeek.name())
+                    .groupName(null)
+                    .students(null)
+                    .build();
         }
 
-        long numeroDoDia = date.getDayOfMonth(); // 1 a 31
-        long totalGrupos = groupRepository.count(); // 11 grupos
-        long ordemDoGrupo = ((numeroDoDia - 1) % totalGrupos) + 1; // de volta ao intervalo 1..11
-        System.out.println("Dia do mês: " + numeroDoDia + ", Ordem do grupo ..........: " + ordemDoGrupo);
+        long dayNumber = date.getDayOfMonth(); // 1 a 31
+        long fullGroups = groupRepository.count(); // 11 grupos
+        long groupOrder = ((dayNumber - 1) % fullGroups) + 1; // de volta ao intervalo 1..11
+        System.out.println("Dia do mês: " + dayNumber + ", Ordem do grupo ..........: " + groupOrder);
 
-        Group group = groupRepository.findByOrder(ordemDoGrupo);
+        Group group = groupRepository.findByOrder(groupOrder);
         if (group == null){
-            return new Response("sem_grupo", "Nenhum grupo definido para hoje", null, null);
+            return Response.builder()
+                    .status("sem_grupo")
+                    .message("Nenhum grupo definido para hoje")
+                    .groupName(null)
+                    .students(null)
+                    .build();
         }
 
 
         List<Student> students = studentRepository.findAllByGroupId(group.getId_group());
 
 
-        return new Response("dia de limpeza", null,group.getName(),students);
-
+        return Response.builder()
+                .status("dia de limpeza")
+                .message( null)
+                .groupName(group.getName())
+                .students(students)
+                .build();
     }
 
 

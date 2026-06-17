@@ -1,8 +1,7 @@
-package com.example.CleanList.Student;
+package com.example.CleanList.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
