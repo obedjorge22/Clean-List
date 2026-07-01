@@ -16,25 +16,10 @@ class User {
     +String email
     +String passwordHash
     +String phone
+    +SystemRole systemRole
     +Boolean active
     +Date createdAt
     +Date updatedAt
-    +Date deletedAt
-}
-
-class Role {
-    +Long id
-    +String name
-    +String description
-    +Date createdAt
-    +Date updatedAt
-    +Date deletedAt
-}
-
-class UserRole {
-    +Long userId
-    +Long roleId
-    +Date createdAt
     +Date deletedAt
 }
 
@@ -59,6 +44,18 @@ class CleaningList {
     +String name
     +String description
     +Long createdBy
+    +Boolean active
+    +Date createdAt
+    +Date updatedAt
+    +Date deletedAt
+}
+
+class CleaningListMember {
+    +Long id
+    +Long cleaningListId
+    +Long userId
+    +CleaningListRole role
+    +Date joinedAt
     +Boolean active
     +Date createdAt
     +Date updatedAt
@@ -169,6 +166,19 @@ class AssignmentHistory {
 %% ENUMS
 %% ===========================
 
+class SystemRole {
+    <<enumeration>>
+    USER
+    ADMIN
+}
+
+class CleaningListRole {
+    <<enumeration>>
+    OWNER
+    ADMIN
+    MEMBER
+}
+
 class RecurrenceType {
     <<enumeration>>
     NONE
@@ -179,12 +189,12 @@ class RecurrenceType {
 %% RELATIONSHIPS
 %% ===========================
 
-UserRole --> User : userId
-UserRole --> Role : roleId
-
 Session --> User : userId
 
 CleaningList --> User : createdBy
+
+CleaningListMember --> CleaningList : cleaningListId
+CleaningListMember --> User : userId
 
 Member --> CleaningList : cleaningListId
 
