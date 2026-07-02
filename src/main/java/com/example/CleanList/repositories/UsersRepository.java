@@ -10,6 +10,10 @@ import java.util.List;
 public interface UsersRepository extends JpaRepository<Users,Long> {
     Users findByEmail(String email);
     Boolean existsUsersByEmail(String email);
-    List<Users> findAllByDeletedAtIsNull(Long groupId);
-    List<Users> findAllByDeletedAtIsNotNull(Long groupId);
+    Boolean existsUsersByPhone(String phone);
+    List<Users> findAllByDeletedAtIsNull();
+    List<Users> findAllByDeletedAtIsNotNull();
+    Users findUsersById(Long id);
+
+    boolean isActive();
 }

@@ -2,15 +2,12 @@ package com.example.CleanList.entities;
 
 import com.example.CleanList.entities.enums.SystemRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Table(name = "users")
 @Entity(name = "users")
-@Getter
+@Data
 @NoArgsConstructor
 @SuperBuilder
 @AllArgsConstructor
