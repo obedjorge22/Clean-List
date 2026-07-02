@@ -12,11 +12,10 @@ import com.example.CleanList.exception.UserNotFoundException;
 import com.example.CleanList.mappers.UsersMapper;
 import com.example.CleanList.repositories.UsersRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-
+@Service
 public class UserServiceImpl implements UserService {
     private final UsersRepository repository;
     private final PasswordEncoder passwordEncoder;
